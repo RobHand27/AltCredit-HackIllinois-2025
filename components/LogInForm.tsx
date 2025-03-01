@@ -1,18 +1,54 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+
+const API_BASE_URL = "https://altcredit.onrender.com";
 
 const LogInForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [token, setToken] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
   const router = useRouter();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(`${API_BASE_URL}/signup`, {
+        email: email,
+        password: password,
+      });
+      setResponseMessage(`Signup Successful: ${data.message}`);
+    } catch (err) {
+      setResponseMessage(err.response?.data?.detail || "Signup Failed!");
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(`${API_BASE_URL}/login`, {
+        email,
+        password,
+      });
+      if (data.access_token) {
+        setToken(data.access_token);
+        setResponseMessage("Login successful! Token received.");
+      } else {
+        throw new Error("No access token received");
+      }
+    } catch (err) {
+      setResponseMessage(err.response?.data?.detail || "Login Failed!");
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignUp) {
-      console.log("Sign up with", email, password);
+      handleSignup(e);
     } else {
-      console.log("Log in with", email, password);
+      handleLogin(e);
     }
     router.push("/upload");
   };
@@ -51,6 +87,8 @@ const LogInForm: React.FC = () => {
             {isSignUp ? "Sign Up" : "Log In"}
           </button>
         </form>
+        <p className="mt-4 text-center text-gray-600">{responseMessage}</p>
+        <hr className="my-6" />
         <p className="mt-4 text-center text-gray-600">
           {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
           <span
