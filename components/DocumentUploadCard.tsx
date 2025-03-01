@@ -130,9 +130,7 @@ export function DocumentUploadCard({
 
       {/* Completion Overlay */}
       {isCompleted && (
-        <div className="absolute inset-0 bg-green-50 bg-opacity-50 flex items-center justify-center rounded-lg">
-          <HiCheckCircle className="h-16 w-16 text-green-500" />
-        </div>
+        <div className="absolute inset-0 bg-green-50 bg-opacity-50 flex items-center justify-center rounded-lg"></div>
       )}
     </div>
   );
