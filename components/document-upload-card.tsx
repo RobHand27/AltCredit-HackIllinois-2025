@@ -4,11 +4,14 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { CheckCircle, Upload } from "react-icons/hi"
+import { HiCheckCircle, HiUpload } from "react-icons/hi"
 
 interface DocumentUploadCardProps {
   title: string
   acceptedFileTypes: string
+  isCompleted: boolean
+  onComplete: () => void
+  userId: string
 }
 
 export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadCardProps) {
@@ -68,7 +71,7 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
       {/* Card Header */}
       <div className="p-6 flex justify-between items-center">
         <h3 className="text-xl font-semibold">{title}</h3>
-        {isCompleted && <CheckCircle className="h-8 w-8 text-green-500" />}
+        {isCompleted && <HiCheckCircle className="h-8 w-8 text-green-500" />}
       </div>
 
       {/* Expanded Upload Content */}
@@ -97,7 +100,7 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
                 onChange={handleFileInput}
                 className="hidden"
               />
-              <Upload className="mx-auto h-12 w-12 text-gray-400" />
+              <HiUpload className="mx-auto h-12 w-12 text-gray-400" />
               <p className="mt-4 text-sm text-gray-600">
                 Drag and drop your PDF here, or{" "}
                 <button
@@ -117,7 +120,7 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
       {/* Completion Overlay */}
       {isCompleted && (
         <div className="absolute inset-0 bg-green-50 bg-opacity-50 flex items-center justify-center rounded-lg">
-          <CheckCircle className="h-16 w-16 text-green-500" />
+          <HiCheckCircle className="h-16 w-16 text-green-500" />
         </div>
       )}
     </div>
