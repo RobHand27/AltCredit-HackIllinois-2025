@@ -69,17 +69,11 @@ export function DocumentUploadCard({
   };
 
   return (
-    <div
-      className={`
-        relative rounded-lg border border-gray-200 bg-white transition-all duration-300
-        ${isExpanded ? "md:col-span-2" : ""}
-        ${isCompleted ? "cursor-default" : "cursor-pointer hover:shadow-lg"}
-      `}
-    >
+    <div className="relative rounded-lg border border-gray-200 bg-white transition-all duration-300">
       {/* Card Header */}
       <div
-        onClick={() => !isCompleted && setIsExpanded(!isExpanded)}
-        className="p-6 flex justify-between items-center"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="p-6 flex justify-between items-center cursor-pointer"
       >
         <h3 className="text-xl font-semibold">{title}</h3>
         {isCompleted && <HiCheckCircle className="h-8 w-8 text-green-500" />}
@@ -133,11 +127,6 @@ export function DocumentUploadCard({
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Completion Overlay */}
-      {isCompleted && (
-        <div className="absolute inset-0 bg-green-50 bg-opacity-50 flex items-center justify-center rounded-lg"></div>
-      )}
     </div>
   );
 }
