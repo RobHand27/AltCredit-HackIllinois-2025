@@ -4,17 +4,16 @@ import { Card, CardContent } from "@/components/ui/card"
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Gradient Header - Adjusted height */}
+      {/* Gradient Header */}
       <div className="w-full bg-gradient-to-b from-[#00008B] via-[#00008B] to-white py-32 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center">
         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl mb-8">AltCredit</h1>
         <p className="mt-3 max-w-md mx-auto text-base text-white/90 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl mb-10">
           Reimagining financial access for everyone
         </p>
-        {/* CTA Section - Moved to top and made bigger */}
         <GoogleAuthButton />
       </div>
 
-      {/* Content Section with Cards */}
+      {/* Content Section */}
       <main className="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="space-y-6">
           <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">

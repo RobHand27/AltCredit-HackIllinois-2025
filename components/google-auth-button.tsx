@@ -3,20 +3,37 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { FcGoogle } from "react-icons/fc"
+import { useRouter } from "next/navigation"
 
 export function GoogleAuthButton() {
   const [isLoading, setIsLoading] = useState(false)
-
+  const router = useRouter()
   const handleSignIn = async () => {
     setIsLoading(true)
-
     try {
-      // Simulate authentication delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      alert("This would connect to Google authentication in a real implementation")
+      // const token = "dummy token"
+      // const response = await fetch("/api/auth", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ token: token }),
+      // })
+      // if (response.ok) {
+      //   const data = await response.json()
+      //   const { authToken } = data
+      //   if (authToken) {
+      //     localStorage.setItem("authToken", authToken)
+      //     router.push("/upload")
+      //   } else {
+      //     console.error("Authentication token missing")
+      //   }
+      // } else {
+      //   console.error("Authentication failed")
+      // }
+      router.push("/upload")
     } catch (error) {
-      console.error("Authentication error:", error)
+      console.error("Login error:", error)
     } finally {
       setIsLoading(false)
     }
