@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useForm } from "react-hook-form"
-import { CheckCircle } from "react-icons/hi"
+import { HiCheckCircle } from "react-icons/hi"
 
 interface FormField {
   name: string
@@ -14,6 +14,9 @@ interface FormField {
 interface ExpandableCardProps {
   title: string
   formFields: FormField[]
+  isCompleted: boolean
+  onComplete: () => void
+  userId: string
 }
 
 export function ExpandableCard({ title, formFields }: ExpandableCardProps) {
@@ -43,7 +46,7 @@ export function ExpandableCard({ title, formFields }: ExpandableCardProps) {
       {/* Card Header */}
       <div className="p-6 flex justify-between items-center">
         <h3 className="text-xl font-semibold">{title}</h3>
-        {isCompleted && <CheckCircle className="h-8 w-8 text-green-500" />}
+        {isCompleted && <HiCheckCircle className="h-8 w-8 text-green-500" />}
       </div>
 
       {/* Expanded Form Content */}
@@ -85,7 +88,7 @@ export function ExpandableCard({ title, formFields }: ExpandableCardProps) {
       {/* Completion Overlay */}
       {isCompleted && (
         <div className="absolute inset-0 bg-green-50 bg-opacity-50 flex items-center justify-center rounded-lg">
-          <CheckCircle className="h-16 w-16 text-green-500" />
+          <HiCheckCircle className="h-16 w-16 text-green-500" />
         </div>
       )}
     </div>

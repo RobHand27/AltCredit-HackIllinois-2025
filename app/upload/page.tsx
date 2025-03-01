@@ -1,10 +1,76 @@
 "use client"
 
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 import { ExpandableCard } from "@/components/expandable-card"
 import { DocumentUploadCard } from "@/components/document-upload-card"
-import { motion } from "framer-motion"
 
 export default function UploadPage() {
+  // const [userId, setUserId] = useState<string>("")
+  // const [completedSections, setCompletedSections] = useState({
+  //   personalInfo: false,
+  //   financialInfo: false,
+  //   idDocument: false,
+  //   proofOfIncome: false,
+  // })
+  const [userId, setUserId] = useState<string>("testUserId123") // Mocked userId for testing
+  const [completedSections, setCompletedSections] = useState({
+    personalInfo: false,
+    financialInfo: false,
+    idDocument: false,
+    proofOfIncome: false,
+  })
+
+  // // Fetch or set user ID when component mounts
+  // useEffect(() => {
+  //   // This would typically come from your auth system
+  //   const fetchUserId = async () => {
+  //     try {
+  //       const response = await fetch("/api/user")
+  //       const data = await response.json()
+  //       setUserId(data.userId)
+  //     } catch (error) {
+  //       console.error("Error fetching user ID:", error)
+  //     }
+  //   }
+
+  //   fetchUserId()
+  // }, [])
+
+  const allSectionsCompleted = Object.values(completedSections).every((section) => section === true)
+
+  const handleSubmitAll = async () => {
+    if (!allSectionsCompleted) return
+
+    try {
+      const response = await fetch("/api/submit-application", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      })
+
+      if (response.ok) {
+        // Handle successful submission
+        alert("Application submitted successfully!")
+      } else {
+        throw new Error("Failed to submit application")
+      }
+    } catch (error) {
+      console.error("Error submitting application:", error)
+      alert("Failed to submit application. Please try again.")
+    }
+  }
+
+  if (!userId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#00CED1] border-t-transparent"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Gradient Header */}
@@ -25,6 +91,8 @@ export default function UploadPage() {
           {/* Personal Information Form */}
           <ExpandableCard
             title="Personal Information"
+            isCompleted={completedSections.personalInfo} // idk why this throws error
+            onComplete={() => setCompletedSections((prev) => ({ ...prev, personalInfo: true }))}
             formFields={[
               { name: "firstName", label: "First Name", type: "text" },
               { name: "lastName", label: "Last Name", type: "text" },
@@ -32,29 +100,53 @@ export default function UploadPage() {
               { name: "phone", label: "Phone Number", type: "tel" },
               { name: "address", label: "Address", type: "text" },
             ]}
+            userId={userId}
           />
 
           {/* Financial Information Form */}
           <ExpandableCard
-            title="Financial Information"
+            title="Digital Footprint Information"
+            isCompleted={completedSections.financialInfo}
+            onComplete={() => setCompletedSections((prev) => ({ ...prev, financialInfo: true }))}
             formFields={[
-              { name: "income", label: "Annual Income", type: "number" },
-              { name: "dob", label: "Date of Birth", type: "date" },
-              { name: "ssn", label: "SSN (last 4 digits)", type: "password" },
+              { name: "Tiktok Username", label: "Tiktok Username", type: "text" },
+              { name: "Instagram Username", label: "Instagram Username", type: "text" },
+              { name: "Facebook Username", label: "Facebook Username", type: "text" },
             ]}
+            userId={userId}
           />
 
           {/* Document Upload Sections */}
-          <DocumentUploadCard title="Government ID" acceptedFileTypes=".pdf" />
+          <DocumentUploadCard
+            title="Upload Payment Proof for Electricity Bill, Phone Service, Rent, or Water Bill "
+            isCompleted={completedSections.idDocument}
+            onComplete={() => setCompletedSections((prev) => ({ ...prev, idDocument: true }))}
+            acceptedFileTypes=".pdf"
+            userId={userId}
+          />
 
-          <DocumentUploadCard title="Proof of Income" acceptedFileTypes=".pdf" />
+          <DocumentUploadCard
+            title="Upload International Credit Report, Proof of Income (W2), or value of owned property"
+            isCompleted={completedSections.proofOfIncome}
+            onComplete={() => setCompletedSections((prev) => ({ ...prev, proofOfIncome: true }))}
+            acceptedFileTypes=".pdf"
+            userId={userId}
+          />
         </div>
 
         {/* Submit Button */}
         <div className="mt-12 flex justify-center">
           <button
-            onClick={() => {}} // Will be implemented with API
-            className="px-8 py-4 text-xl font-bold rounded-lg shadow-lg transition-all bg-[#00CED1] hover:bg-[#00CED1]/90 text-white"
+            onClick={handleSubmitAll}
+            disabled={!allSectionsCompleted}
+            className={`
+              px-8 py-4 text-xl font-bold rounded-lg shadow-lg transition-all
+              ${
+                allSectionsCompleted
+                  ? "bg-[#00CED1] hover:bg-[#00CED1]/90 text-white cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }
+            `}
           >
             Show My Eligibility
           </button>
@@ -63,4 +155,3 @@ export default function UploadPage() {
     </div>
   )
 }
-
