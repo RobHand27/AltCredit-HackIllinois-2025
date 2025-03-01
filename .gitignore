@@ -4,7 +4,7 @@
 UI/.pnp
 .pnp.js
 
-/.next
+
 
 # testing
 /coverage
@@ -25,5 +25,7 @@ yarn-error.log*
 
 node_modules
 components
+
+.next
 
 
