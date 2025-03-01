@@ -31,7 +31,8 @@ export function GoogleAuthButton() {
       // } else {
       //   console.error("Authentication failed")
       // }
-      router.push("/upload")
+      // router.push("/upload")
+      router.push("/login");
     } catch (error) {
       console.error("Login error:", error)
     } finally {
