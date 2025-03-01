@@ -4,16 +4,10 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { DocumentUploadCard } from "@/components/DocumentUploadCard";
+import { handleAPIRequest } from "@/lib/utils";
 
 export default function UploadPage() {
-  // const [userId, setUserId] = useState<string>("")
-  // const [completedSections, setCompletedSections] = useState({
-  //   personalInfo: false,
-  //   financialInfo: false,
-  //   idDocument: false,
-  //   proofOfIncome: false,
-  // })
-  const [userId, setUserId] = useState<string>("testUserId123"); // Mocked userId for testing
+  const [userId, setUserId] = useState<string>("");
   const [completedSections, setCompletedSections] = useState({
     personalInfo: false,
     financialInfo: false,
@@ -65,14 +59,6 @@ export default function UploadPage() {
     }
   };
 
-  if (!userId) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#00CED1] border-t-transparent"></div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* Gradient Header */}
@@ -94,9 +80,19 @@ export default function UploadPage() {
           <ExpandableCard
             title="Personal Information"
             isCompleted={completedSections.personalInfo} // idk why this throws error
-            onComplete={() =>
-              setCompletedSections((prev) => ({ ...prev, personalInfo: true }))
-            }
+            onComplete={async (jsonString) => {
+              const res = await handleAPIRequest(
+                "update_general_info",
+                "POST",
+                JSON.parse(jsonString)
+              );
+              if (res.success) {
+                setCompletedSections((prev) => ({
+                  ...prev,
+                  personalInfo: true,
+                }));
+              }
+            }}
             formFields={[
               { name: "firstName", label: "First Name", type: "text" },
               { name: "lastName", label: "Last Name", type: "text" },
@@ -111,9 +107,19 @@ export default function UploadPage() {
           <ExpandableCard
             title="Digital Footprint Information"
             isCompleted={completedSections.financialInfo}
-            onComplete={() =>
-              setCompletedSections((prev) => ({ ...prev, financialInfo: true }))
-            }
+            onComplete={async (jsonString) => {
+              const res = await handleAPIRequest(
+                "update_digital",
+                "POST",
+                JSON.parse(jsonString)["Tiktok Username"]
+              );
+              if (res.success) {
+                setCompletedSections((prev) => ({
+                  ...prev,
+                  financialInfo: true,
+                }));
+              }
+            }}
             formFields={[
               {
                 name: "Tiktok Username",

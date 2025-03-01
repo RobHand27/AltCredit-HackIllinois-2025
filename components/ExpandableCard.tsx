@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { HiCheckCircle } from "react-icons/hi";
 
 interface FormField {
@@ -15,11 +15,15 @@ interface ExpandableCardProps {
   title: string;
   formFields: FormField[];
   isCompleted: boolean;
-  onComplete: () => void;
+  onComplete: (data: string) => void;
   userId: string;
 }
 
-export function ExpandableCard({ title, formFields }: ExpandableCardProps) {
+export function ExpandableCard({
+  title,
+  formFields,
+  onComplete,
+}: ExpandableCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const {
@@ -28,10 +32,11 @@ export function ExpandableCard({ title, formFields }: ExpandableCardProps) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FieldValues) => {
     console.log(data);
     setIsCompleted(true);
     setIsExpanded(false);
+    onComplete(JSON.stringify(data));
   };
 
   return (
