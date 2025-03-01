@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 
-export function GoogleAuthButton() {
+export function SignInButton() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const handleSignIn = async () => {
