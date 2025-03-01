@@ -16,22 +16,14 @@ export default function UploadPage() {
 
   const [allSectionsCompleted, setAllSectionsCompleted] = useState(
     Object.values(completedSections).every((section) => {
-      console.log("Checking section:", section);
       return section === true;
     })
   );
 
   useEffect(() => {
-    const checkAllSectionsCompleted = () => {
-      return Object.values(completedSections).every(
-        (section) => section === true
-      );
-    };
-    console.log(
-      "Checking all sections completed...",
-      checkAllSectionsCompleted()
+    setAllSectionsCompleted(
+      Object.values(completedSections).every((section) => section === true)
     );
-    setAllSectionsCompleted(checkAllSectionsCompleted());
   }, [completedSections]);
 
   const handleSubmitAll = async () => {
