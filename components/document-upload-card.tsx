@@ -1,67 +1,69 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { HiCheckCircle, HiUpload } from "react-icons/hi"
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { HiCheckCircle, HiUpload } from "react-icons/hi";
 
 interface DocumentUploadCardProps {
-  title: string
-  acceptedFileTypes: string
-  isCompleted: boolean
-  onComplete: () => void
-  userId: string
+  title: string;
+  acceptedFileTypes: string;
+  isCompleted: boolean;
+  onComplete: () => void;
+  userId: string;
 }
 
-export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [isCompleted, setIsCompleted] = useState(false)
-  const [fileName, setFileName] = useState<string | null>(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+export function DocumentUploadCard({
+  title,
+  acceptedFileTypes,
+}: DocumentUploadCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
   const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-  }
+    e.preventDefault();
+    setIsDragging(false);
+  };
 
   const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-    const files = e.dataTransfer.files
-    handleFiles(files)
-  }
+    e.preventDefault();
+    setIsDragging(false);
+    const files = e.dataTransfer.files;
+    handleFiles(files);
+  };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    handleFiles(files)
-  }
+    const files = e.target.files;
+    handleFiles(files);
+  };
 
   const handleFiles = (files: FileList | null) => {
     if (files && files[0]) {
-      const file = files[0]
+      const file = files[0];
       if (file.type === "application/pdf") {
-        setFileName(file.name)
+        setFileName(file.name);
         // Here you would typically upload the file to your server
         setTimeout(() => {
-          setIsCompleted(true)
-          setIsExpanded(false)
-        }, 1000)
+          setIsCompleted(true);
+          setIsExpanded(false);
+        }, 1000);
       } else {
-        alert("Please upload a PDF file")
+        alert("Please upload a PDF file");
       }
     }
-  }
+  };
 
   return (
     <div
-      onClick={() => !isCompleted && setIsExpanded(!isExpanded)}
       className={`
         relative rounded-lg border border-gray-200 bg-white transition-all duration-300
         ${isExpanded ? "md:col-span-2" : ""}
@@ -69,7 +71,10 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
       `}
     >
       {/* Card Header */}
-      <div className="p-6 flex justify-between items-center">
+      <div
+        onClick={() => !isCompleted && setIsExpanded(!isExpanded)}
+        className="p-6 flex justify-between items-center"
+      >
         <h3 className="text-xl font-semibold">{title}</h3>
         {isCompleted && <HiCheckCircle className="h-8 w-8 text-green-500" />}
       </div>
@@ -90,7 +95,11 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
               onDrop={handleDrop}
               className={`
                 border-2 border-dashed rounded-lg p-12 text-center
-                ${isDragging ? "border-[#00CED1] bg-[#00CED1]/10" : "border-gray-300"}
+                ${
+                  isDragging
+                    ? "border-[#00CED1] bg-[#00CED1]/10"
+                    : "border-gray-300"
+                }
               `}
             >
               <input
@@ -111,7 +120,9 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
                   browse
                 </button>
               </p>
-              {fileName && <p className="mt-2 text-sm text-gray-500">{fileName}</p>}
+              {fileName && (
+                <p className="mt-2 text-sm text-gray-500">{fileName}</p>
+              )}
             </div>
           </motion.div>
         )}
@@ -124,6 +135,5 @@ export function DocumentUploadCard({ title, acceptedFileTypes }: DocumentUploadC
         </div>
       )}
     </div>
-  )
+  );
 }
-
