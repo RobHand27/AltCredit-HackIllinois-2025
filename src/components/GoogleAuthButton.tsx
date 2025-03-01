@@ -3,30 +3,36 @@
 import { useState } from "react"
 import { FcGoogle } from "react-icons/fc"
 import { useRouter } from "next/navigation"
-import { gapi } from "gapi-script" // needs to be included in the package json
-
-const CLIENT_ID = "YOUR_CLIENT_ID"
 
 export function GoogleAuthButton() {
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: CLIENT_ID,
-        scope: "profile email",
-      })
-    }
-    gapi.load("client:auth2", start)
-  }, [])
-
   const handleSignIn = async () => {
     setIsLoading(true)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500)) // Simulate brief loading
-      navigate("/upload")
+      const token = "dummy token"
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: token }),
+      })
+      if (response.ok) {
+        const data = await response.json()
+        const { authToken } = data
+        if (authToken) {
+          localStorage.setItem("authToken", authToken)
+          router.push("/upload")
+        } else {
+          console.error("Authentication token missing")
+        }
+      } else {
+        console.error("Authentication failed")
+      }
+
     } catch (error) {
-      console.error("Navigation error:", error)
+      console.error("Login error:", error)
     } finally {
       setIsLoading(false)
     }
