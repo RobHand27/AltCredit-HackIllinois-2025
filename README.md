@@ -1,1 +1,1 @@
-Authors: Rob Hand (Robertthand7@illinois.edu) [add more names here]
+Authors: Rob Hand (Robertthand7@gmail.com), Ethan Chen, Mike Cheng [add contact info here]
