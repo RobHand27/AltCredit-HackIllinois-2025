@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ExpandableCard } from "@/components/ExpandableCard";
-import { DocumentUploadCard } from "@/components/document-upload-card";
+import { DocumentUploadCard } from "@/components/DocumentUploadCard";
 
 export default function UploadPage() {
   // const [userId, setUserId] = useState<string>("")
