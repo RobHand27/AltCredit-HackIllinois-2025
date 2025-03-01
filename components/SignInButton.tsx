@@ -11,27 +11,6 @@ export function SignInButton() {
   const handleSignIn = async () => {
     setIsLoading(true);
     try {
-      // const token = "dummy token"
-      // const response = await fetch("/api/auth", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ token: token }),
-      // })
-      // if (response.ok) {
-      //   const data = await response.json()
-      //   const { authToken } = data
-      //   if (authToken) {
-      //     localStorage.setItem("authToken", authToken)
-      //     router.push("/upload")
-      //   } else {
-      //     console.error("Authentication token missing")
-      //   }
-      // } else {
-      //   console.error("Authentication failed")
-      // }
-      // router.push("/upload")
       router.push("/login");
     } catch (error) {
       console.error("Login error:", error);
@@ -54,7 +33,6 @@ export function SignInButton() {
         </div>
       ) : (
         <div className="flex items-center gap-6">
-          <FcGoogle className="h-12 w-12" />
           <span>Try It Out</span>
         </div>
       )}
