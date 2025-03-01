@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { FcGoogle } from "react-icons/fc"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
 
 export function GoogleAuthButton() {
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const handleSignIn = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       // const token = "dummy token"
       // const response = await fetch("/api/auth", {
@@ -34,11 +34,11 @@ export function GoogleAuthButton() {
       // router.push("/upload")
       router.push("/login");
     } catch (error) {
-      console.error("Login error:", error)
+      console.error("Login error:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Button
@@ -59,6 +59,5 @@ export function GoogleAuthButton() {
         </div>
       )}
     </Button>
-  )
+  );
 }
-
