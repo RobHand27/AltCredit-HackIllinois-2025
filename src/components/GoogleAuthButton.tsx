@@ -2,19 +2,31 @@
 
 import { useState } from "react"
 import { FcGoogle } from "react-icons/fc"
+import { useRouter } from "next/navigation"
+import { gapi } from "gapi-script" // needs to be included in the package json
+
+const CLIENT_ID = "YOUR_CLIENT_ID"
 
 export function GoogleAuthButton() {
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: CLIENT_ID,
+        scope: "profile email",
+      })
+    }
+    gapi.load("client:auth2", start)
+  }, [])
 
   const handleSignIn = async () => {
     setIsLoading(true)
-
     try {
-      // Simulate authentication delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      alert("This would connect to Google authentication in a real implementation")
+      await new Promise((resolve) => setTimeout(resolve, 500)) // Simulate brief loading
+      navigate("/upload")
     } catch (error) {
-      console.error("Authentication error:", error)
+      console.error("Navigation error:", error)
     } finally {
       setIsLoading(false)
     }
