@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.gradient-header {
+  background: linear-gradient(to bottom, #00008b, #00008b 60%, white);
+}
+
+/* Add any additional custom styles here */
+
