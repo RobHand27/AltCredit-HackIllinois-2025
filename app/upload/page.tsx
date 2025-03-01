@@ -79,7 +79,7 @@ export default function UploadPage() {
           {/* Personal Information Form */}
           <ExpandableCard
             title="Personal Information"
-            isCompleted={completedSections.personalInfo} // idk why this throws error
+            isCompleted={completedSections.personalInfo}
             onComplete={async (jsonString) => {
               const res = await handleAPIRequest(
                 "update_general_info",
@@ -96,7 +96,6 @@ export default function UploadPage() {
             formFields={[
               { name: "firstName", label: "First Name", type: "text" },
               { name: "lastName", label: "Last Name", type: "text" },
-              { name: "email", label: "Email", type: "email" },
               { name: "phone", label: "Phone Number", type: "tel" },
               { name: "address", label: "Address", type: "text" },
             ]}
