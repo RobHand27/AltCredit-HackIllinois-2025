@@ -16,7 +16,6 @@ interface ExpandableCardProps {
   formFields: FormField[];
   isCompleted: boolean;
   onComplete: (data: string) => void;
-  userId: string;
 }
 
 export function ExpandableCard({
@@ -44,12 +43,11 @@ export function ExpandableCard({
       className={`
         relative rounded-lg border border-gray-200 bg-white transition-all duration-300
         ${isExpanded ? "md:col-span-2" : ""}
-        ${isCompleted ? "cursor-default" : "cursor-pointer hover:shadow-lg"}
       `}
     >
       {/* Card Header */}
       <div
-        onClick={() => !isCompleted && setIsExpanded(!isExpanded)}
+        onClick={() => setIsExpanded(!isExpanded)}
         className="p-6 flex justify-between items-center"
       >
         <h3 className="text-xl font-semibold">{title}</h3>

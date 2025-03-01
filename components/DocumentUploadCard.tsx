@@ -10,19 +10,25 @@ interface DocumentUploadCardProps {
   title: string;
   acceptedFileTypes: string;
   isCompleted: boolean;
-  onComplete: () => void;
-  userId: string;
+  onComplete: (data: File) => void;
 }
 
 export function DocumentUploadCard({
   title,
   acceptedFileTypes,
+  onComplete,
 }: DocumentUploadCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const onSubmit = (data: File) => {
+    setIsCompleted(true);
+    setIsExpanded(false);
+    onComplete(data);
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -51,7 +57,7 @@ export function DocumentUploadCard({
       const file = files[0];
       if (file.type === "application/pdf") {
         setFileName(file.name);
-        // Here you would typically upload the file to your server
+        onSubmit(file);
         setTimeout(() => {
           setIsCompleted(true);
           setIsExpanded(false);

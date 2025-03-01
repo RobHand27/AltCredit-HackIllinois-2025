@@ -7,7 +7,6 @@ import { DocumentUploadCard } from "@/components/DocumentUploadCard";
 import { handleAPIRequest } from "@/lib/utils";
 
 export default function UploadPage() {
-  const [userId, setUserId] = useState<string>("");
   const [completedSections, setCompletedSections] = useState({
     personalInfo: false,
     financialInfo: false,
@@ -15,25 +14,25 @@ export default function UploadPage() {
     proofOfIncome: false,
   });
 
-  // // Fetch or set user ID when component mounts
-  // useEffect(() => {
-  //   // This would typically come from your auth system
-  //   const fetchUserId = async () => {
-  //     try {
-  //       const response = await fetch("/api/user")
-  //       const data = await response.json()
-  //       setUserId(data.userId)
-  //     } catch (error) {
-  //       console.error("Error fetching user ID:", error)
-  //     }
-  //   }
-
-  //   fetchUserId()
-  // }, [])
-
-  const allSectionsCompleted = Object.values(completedSections).every(
-    (section) => section === true
+  const [allSectionsCompleted, setAllSectionsCompleted] = useState(
+    Object.values(completedSections).every((section) => {
+      console.log("Checking section:", section);
+      return section === true;
+    })
   );
+
+  useEffect(() => {
+    const checkAllSectionsCompleted = () => {
+      return Object.values(completedSections).every(
+        (section) => section === true
+      );
+    };
+    console.log(
+      "Checking all sections completed...",
+      checkAllSectionsCompleted()
+    );
+    setAllSectionsCompleted(checkAllSectionsCompleted());
+  }, [completedSections]);
 
   const handleSubmitAll = async () => {
     if (!allSectionsCompleted) return;
@@ -44,7 +43,6 @@ export default function UploadPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId }),
       });
 
       if (response.ok) {
@@ -99,7 +97,6 @@ export default function UploadPage() {
               { name: "phone", label: "Phone Number", type: "tel" },
               { name: "address", label: "Address", type: "text" },
             ]}
-            userId={userId}
           />
 
           {/* Financial Information Form */}
@@ -136,28 +133,25 @@ export default function UploadPage() {
                 type: "text",
               },
             ]}
-            userId={userId}
           />
 
           {/* Document Upload Sections */}
           <DocumentUploadCard
             title="Upload Payment Proof for Electricity Bill, Phone Service, Rent, or Water Bill "
             isCompleted={completedSections.idDocument}
-            onComplete={() =>
+            onComplete={(data: any) =>
               setCompletedSections((prev) => ({ ...prev, idDocument: true }))
             }
             acceptedFileTypes=".pdf"
-            userId={userId}
           />
 
           <DocumentUploadCard
             title="Upload International Credit Report, Proof of Income (W2), or value of owned property"
             isCompleted={completedSections.proofOfIncome}
-            onComplete={() =>
+            onComplete={(data: any) =>
               setCompletedSections((prev) => ({ ...prev, proofOfIncome: true }))
             }
             acceptedFileTypes=".pdf"
-            userId={userId}
           />
         </div>
 
