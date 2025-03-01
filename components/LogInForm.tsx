@@ -8,7 +8,6 @@ const LogInForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
-  const [token, setToken] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
   const router = useRouter();
 
@@ -19,6 +18,7 @@ const LogInForm: React.FC = () => {
         email: email,
         password: password,
       });
+      localStorage.setItem("token", data.access_token);
       setResponseMessage(`Signup Successful: ${data.message}`);
       router.push("/upload");
     } catch (err) {
@@ -34,7 +34,7 @@ const LogInForm: React.FC = () => {
         password,
       });
       if (data.access_token) {
-        setToken(data.access_token);
+        localStorage.setItem("token", data.access_token);
         setResponseMessage("Login successful! Token received.");
         router.push("/upload");
       } else {
