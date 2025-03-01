@@ -20,6 +20,7 @@ const LogInForm: React.FC = () => {
         password: password,
       });
       setResponseMessage(`Signup Successful: ${data.message}`);
+      router.push("/upload");
     } catch (err) {
       setResponseMessage(err.response?.data?.detail || "Signup Failed!");
     }
@@ -35,6 +36,7 @@ const LogInForm: React.FC = () => {
       if (data.access_token) {
         setToken(data.access_token);
         setResponseMessage("Login successful! Token received.");
+        router.push("/upload");
       } else {
         throw new Error("No access token received");
       }
@@ -50,7 +52,6 @@ const LogInForm: React.FC = () => {
     } else {
       handleLogin(e);
     }
-    router.push("/upload");
   };
 
   return (
