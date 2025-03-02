@@ -29,7 +29,7 @@ export default function EligibilityPage() {
       title: "Personal Starter Loan",
       description:
         "Perfect for those beginning their credit journey. Low entry requirements with competitive rates.",
-      imageUrl: "/placeholder.svg?height=200&width=200",
+      imageUrl: "/capitalone.png",
       threshold: 1,
       interestRate: "8.99%",
       loanAmount: "$5,000",
@@ -40,7 +40,7 @@ export default function EligibilityPage() {
       title: "Premium Credit Builder",
       description:
         "Designed for those with emerging credit profiles. Better rates with flexible payment options.",
-      imageUrl: "/placeholder.svg?height=200&width=200",
+      imageUrl: "/capitalone.png",
       threshold: 3,
       interestRate: "6.99%",
       loanAmount: "$10,000",
@@ -66,7 +66,7 @@ export default function EligibilityPage() {
         // const response = await fetch("/api/user-threshold")
         // const data = await response.json()
         // setThreshold(data.threshold)
-        setThreshold(3);
+        setThreshold(4);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching threshold:", error);
