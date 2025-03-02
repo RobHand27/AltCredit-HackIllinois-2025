@@ -83,7 +83,7 @@ const LogInForm: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            className="w-full bg-[#00CED1] hover:bg-[#00CED1]/90 text-white py-2 rounded-lg transition duration-300"
           >
             {isSignUp ? "Sign Up" : "Log In"}
           </button>

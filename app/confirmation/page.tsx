@@ -35,7 +35,7 @@ const ConfirmationPage: React.FC = () => {
         </div>
         <button
           onClick={handleConfirm}
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+          className="bg-[#00CED1] hover:bg-[#00CED1]/90 text-white py-2 px-4 rounded-lg transition duration-300"
         >
           Confirm
         </button>
