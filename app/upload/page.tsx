@@ -151,19 +151,46 @@ export default function UploadPage() {
           {/* Document Upload Sections */}
           <DocumentUploadCard
             title="Upload Payment Proof for Electricity Bill, Phone Service, Rent, or Water Bill "
-            isCompleted={completedSections.idDocument}
-            onComplete={(data: any) =>
-              setCompletedSections((prev) => ({ ...prev, idDocument: true }))
-            }
+            isCompleted={completedSections.cash_flow}
+            onComplete={async (data: File) => {
+              const formData = new FormData();
+              formData.append("file", data);
+              const res = await handleAPIRequest(
+                "upload_cashflow",
+                "POST",
+                formData,
+                true
+              );
+              if (res.success) {
+                setCompletedSections((prev) => ({ ...prev, cash_flow: true }));
+              } else {
+                alert(res.message);
+              }
+            }}
             acceptedFileTypes=".pdf"
           />
 
           <DocumentUploadCard
             title="Upload International Credit Report, Proof of Income (W2), or value of owned property"
-            isCompleted={completedSections.proofOfIncome}
-            onComplete={(data: any) =>
-              setCompletedSections((prev) => ({ ...prev, proofOfIncome: true }))
-            }
+            isCompleted={true}
+            onComplete={async (data: File) => {
+              const formData = new FormData();
+              formData.append("file", data);
+              const res = await handleAPIRequest(
+                "upload_official_document",
+                "POST",
+                formData,
+                true
+              );
+              if (res.success) {
+                setCompletedSections((prev) => ({
+                  ...prev,
+                  official_documents: true,
+                }));
+              } else {
+                alert(res.message);
+              }
+            }}
             acceptedFileTypes=".pdf"
           />
         </div>
