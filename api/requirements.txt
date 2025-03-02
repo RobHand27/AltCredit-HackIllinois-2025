@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+motor
+pydantic
+pyspark
+pytesseract
+pillow
+numpy
+dotenv
+passlib
+PyJWT
+python-multipart
+bcrypt
+requests
+pymupdf
+openai
