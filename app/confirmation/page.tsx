@@ -18,7 +18,7 @@ export default function ConfirmationPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+    <div className="bg-gradient-to-b from-[#00008B] via-[#00008B] to-60% to-white flex items-center justify-center min-h-screen">
       <div className="bg-white shadow-md rounded-lg p-8 text-center">
         <h1 className="text-3xl font-bold text-green-600 mb-4">
           Congratulations!

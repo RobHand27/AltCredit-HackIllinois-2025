@@ -55,51 +55,49 @@ const LogInForm: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        {isSignUp ? "Sign Up" : "Log In"}
+      </h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-gray-700">Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700">Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-[#00CED1] hover:bg-[#00CED1]/90 text-white py-2 rounded-lg transition duration-300"
+        >
           {isSignUp ? "Sign Up" : "Log In"}
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700">Email:</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700">Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-[#00CED1] hover:bg-[#00CED1]/90 text-white py-2 rounded-lg transition duration-300"
-          >
-            {isSignUp ? "Sign Up" : "Log In"}
-          </button>
-        </form>
-        <p className="mt-4 text-center text-gray-600">{responseMessage}</p>
-        <hr className="my-6" />
-        <p className="mt-4 text-center text-gray-600">
-          {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-          <span
-            className="text-blue-500 cursor-pointer hover:underline"
-            onClick={() => setIsSignUp(!isSignUp)}
-          >
-            {isSignUp ? "Log in" : "Sign up"}
-          </span>
-        </p>
-      </div>
+        </button>
+      </form>
+      <p className="mt-4 text-center text-gray-600">{responseMessage}</p>
+      <hr className="my-6" />
+      <p className="mt-4 text-center text-gray-600">
+        {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+        <span
+          className="text-blue-500 cursor-pointer hover:underline"
+          onClick={() => setIsSignUp(!isSignUp)}
+        >
+          {isSignUp ? "Log in" : "Sign up"}
+        </span>
+      </p>
     </div>
   );
 };
