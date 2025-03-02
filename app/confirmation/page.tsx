@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const ConfirmationPage: React.FC = () => {
+export default function ConfirmationPage() {
   const router = useRouter();
 
   const handleConfirm = () => {
@@ -42,6 +42,4 @@ const ConfirmationPage: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default ConfirmationPage;
+}
