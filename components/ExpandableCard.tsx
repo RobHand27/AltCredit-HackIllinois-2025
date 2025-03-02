@@ -9,6 +9,7 @@ interface FormField {
   name: string;
   label: string;
   type: string;
+  defaultValue?: string;
 }
 
 interface ExpandableCardProps {
@@ -22,9 +23,9 @@ export function ExpandableCard({
   title,
   formFields,
   onComplete,
+  isCompleted,
 }: ExpandableCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const {
     register,
     handleSubmit,
@@ -33,7 +34,7 @@ export function ExpandableCard({
 
   const onSubmit = (data: FieldValues) => {
     console.log(data);
-    setIsCompleted(true);
+    isCompleted = true;
     setIsExpanded(false);
     onComplete(JSON.stringify(data));
   };
@@ -67,6 +68,7 @@ export function ExpandableCard({
                   </label>
                   <input
                     type={field.type}
+                    defaultValue={field.defaultValue}
                     {...register(field.name, { required: true })}
                     className={`
                       w-full px-3 py-2 border rounded-md

@@ -17,15 +17,15 @@ export function DocumentUploadCard({
   title,
   acceptedFileTypes,
   onComplete,
+  isCompleted,
 }: DocumentUploadCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = (data: File) => {
-    setIsCompleted(true);
+    isCompleted = true;
     setIsExpanded(false);
     onComplete(data);
   };
@@ -59,7 +59,7 @@ export function DocumentUploadCard({
         setFileName(file.name);
         onSubmit(file);
         setTimeout(() => {
-          setIsCompleted(true);
+          isCompleted = true;
           setIsExpanded(false);
         }, 1000);
       } else {

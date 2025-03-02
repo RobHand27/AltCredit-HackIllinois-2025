@@ -11,17 +11,38 @@ export default function UploadPage() {
   const router = useRouter();
 
   const [completedSections, setCompletedSections] = useState({
-    personalInfo: false,
-    financialInfo: false,
-    idDocument: false,
-    proofOfIncome: false,
+    general_info: false,
+    digital_footprint: false,
+    cash_flow: false,
+    official_documents: false,
   });
 
-  const [allSectionsCompleted, setAllSectionsCompleted] = useState(
-    Object.values(completedSections).every((section) => {
-      return section === true;
-    })
-  );
+  const [formData, setFormData] = useState({
+    general_info: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      address: "",
+    },
+    digital_footprint: {
+      tiktok: {
+        username: "",
+        followers: -1,
+      },
+      instagram: {
+        username: "",
+        followers: -1,
+      },
+      facebook: {
+        username: "",
+        followers: -1,
+      },
+    },
+    cash_flow: null,
+    official_documents: null,
+  });
+
+  const [allSectionsCompleted, setAllSectionsCompleted] = useState(false);
 
   useEffect(() => {
     setAllSectionsCompleted(
@@ -29,35 +50,35 @@ export default function UploadPage() {
     );
   }, [completedSections]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await handleAPIRequest("me");
-  //     if (res.success) {
-  //       console.log(res);
-  //     } else {
-  //       alert(res.message);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await handleAPIRequest("me");
+      if (res.success) {
+        const data = res.data;
+        setFormData({
+          general_info: data.general_info || {},
+          digital_footprint: data.digital_footprint || {},
+          cash_flow: data.cash_flow || null,
+          official_documents: data.official_documents || null,
+        });
+        setCompletedSections({
+          general_info: !!data.general_info,
+          digital_footprint: !!data.digital_footprint,
+          cash_flow: !!data.cash_flow,
+          official_documents: !!data.official_documents,
+        });
+        console.log("filled in", JSON.stringify(data));
+      } else {
+        alert(res.message);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleSubmitAll = async () => {
     if (!allSectionsCompleted) return;
 
     try {
-      // const response = await fetch("/api/submit-application", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
-
-      // if (response.ok) {
-      //   // Handle successful submission
-      //   alert("Application submitted successfully!");
-      // } else {
-      //   throw new Error("Failed to submit application");
-      // }
       alert("Application submitted successfully!");
       router.push("/eligibility");
     } catch (error) {
@@ -86,7 +107,7 @@ export default function UploadPage() {
           {/* Personal Information Form */}
           <ExpandableCard
             title="Personal Information"
-            isCompleted={completedSections.personalInfo}
+            isCompleted={completedSections.general_info}
             onComplete={async (jsonString) => {
               const res = await handleAPIRequest(
                 "update_general_info",
@@ -96,24 +117,44 @@ export default function UploadPage() {
               if (res.success) {
                 setCompletedSections((prev) => ({
                   ...prev,
-                  personalInfo: true,
+                  general_info: true,
                 }));
               } else {
                 alert(res.message);
               }
             }}
             formFields={[
-              { name: "firstName", label: "First Name", type: "text" },
-              { name: "lastName", label: "Last Name", type: "text" },
-              { name: "phone", label: "Phone Number", type: "tel" },
-              { name: "address", label: "Address", type: "text" },
+              {
+                name: "firstName",
+                label: "First Name",
+                type: "text",
+                defaultValue: formData.general_info.firstName,
+              },
+              {
+                name: "lastName",
+                label: "Last Name",
+                type: "text",
+                defaultValue: formData.general_info.lastName,
+              },
+              {
+                name: "phone",
+                label: "Phone Number",
+                type: "tel",
+                defaultValue: formData.general_info.phone,
+              },
+              {
+                name: "address",
+                label: "Address",
+                type: "text",
+                defaultValue: formData.general_info.address,
+              },
             ]}
           />
 
           {/* Financial Information Form */}
           <ExpandableCard
             title="Digital Footprint Information"
-            isCompleted={completedSections.financialInfo}
+            isCompleted={completedSections.digital_footprint}
             onComplete={async (jsonString) => {
               const res = await handleAPIRequest(
                 "update_digital",
@@ -123,7 +164,7 @@ export default function UploadPage() {
               if (res.success) {
                 setCompletedSections((prev) => ({
                   ...prev,
-                  financialInfo: true,
+                  digital_footprint: true,
                 }));
               } else {
                 alert(res.message);
@@ -134,16 +175,21 @@ export default function UploadPage() {
                 name: "Tiktok Username",
                 label: "Tiktok Username",
                 type: "text",
+                defaultValue: formData.digital_footprint.tiktok?.username || "",
               },
               {
                 name: "Instagram Username",
                 label: "Instagram Username",
                 type: "text",
+                defaultValue:
+                  formData.digital_footprint.instagram?.username || "",
               },
               {
                 name: "Facebook Username",
                 label: "Facebook Username",
                 type: "text",
+                defaultValue:
+                  formData.digital_footprint.facebook?.username || "",
               },
             ]}
           />
