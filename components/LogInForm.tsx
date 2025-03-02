@@ -11,7 +11,7 @@ const LogInForm: React.FC = () => {
   const [responseMessage, setResponseMessage] = useState("");
   const router = useRouter();
 
-  const handleSignup = async (e) => {
+  const handleSignup = async (e: Event) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${API_BASE_URL}/signup`, {
@@ -21,7 +21,7 @@ const LogInForm: React.FC = () => {
       localStorage.setItem("token", data.access_token);
       setResponseMessage(`Signup Successful: ${data.message}`);
       router.push("/upload");
-    } catch (err) {
+    } catch (err: any) {
       setResponseMessage(err.response?.data?.detail || "Signup Failed!");
     }
   };
