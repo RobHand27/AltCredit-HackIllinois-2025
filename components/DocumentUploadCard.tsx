@@ -75,8 +75,10 @@ export function DocumentUploadCard({
         onClick={() => setIsExpanded(!isExpanded)}
         className="p-6 flex justify-between items-center cursor-pointer"
       >
-        <h3 className="text-xl font-semibold">{title}</h3>
-        {isCompleted && <HiCheckCircle className="h-8 w-8 text-green-500" />}
+        <h3 className="text-xl font-semibold flex-grow">{title}</h3>
+        {isCompleted && (
+          <HiCheckCircle className="h-8 w-8 text-green-500 flex-shrink-0" />
+        )}
       </div>
 
       {/* Expanded Upload Content */}
