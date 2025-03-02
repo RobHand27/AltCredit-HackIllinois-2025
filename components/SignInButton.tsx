@@ -11,7 +11,11 @@ export function SignInButton() {
   const handleSignIn = async () => {
     setIsLoading(true);
     try {
-      router.push("/login");
+      if (localStorage.getItem("token")) {
+        router.push("/upload");
+      } else {
+        router.push("/login");
+      }
     } catch (error) {
       console.error("Login error:", error);
     } finally {
