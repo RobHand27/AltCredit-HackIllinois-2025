@@ -38,8 +38,8 @@ export default function UploadPage() {
         followers: -1,
       },
     },
-    cash_flow: null,
-    official_documents: null,
+    cash_flow: [],
+    official_documents: [],
   });
 
   const [allSectionsCompleted, setAllSectionsCompleted] = useState(false);
@@ -58,14 +58,21 @@ export default function UploadPage() {
         setFormData({
           general_info: data.general_info || {},
           digital_footprint: data.digital_footprint || {},
-          cash_flow: data.cash_flow || null,
-          official_documents: data.official_documents || null,
+          cash_flow: data.cash_flow || [],
+          official_documents: data.official_documents || [],
         });
         setCompletedSections({
-          general_info: !!data.general_info,
-          digital_footprint: !!data.digital_footprint,
-          cash_flow: !!data.cash_flow,
-          official_documents: !!data.official_documents,
+          general_info:
+            !!data.general_info.firstName &&
+            !!data.general_info.lastName &&
+            !!data.general_info.phone &&
+            !!data.general_info.address,
+          digital_footprint:
+            !!data.digital_footprint.tiktok.username ||
+            !!data.digital_footprint.instagram.username ||
+            !!data.digital_footprint.facebook.username,
+          cash_flow: data.cash_flow.length > 0,
+          official_documents: data.official_documents.length > 0,
         });
         console.log("filled in", JSON.stringify(data));
       } else {
@@ -218,7 +225,7 @@ export default function UploadPage() {
 
           <DocumentUploadCard
             title="Upload International Credit Report, Proof of Income (W2), or value of owned property"
-            isCompleted={true}
+            isCompleted={completedSections.official_documents}
             onComplete={async (data: File) => {
               const formData = new FormData();
               formData.append("file", data);
