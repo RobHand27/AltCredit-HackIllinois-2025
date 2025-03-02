@@ -36,10 +36,10 @@ export async function handleAPIRequest(
 
     return { success: true, data: response.data };
   } catch (err) {
-    console.error("API Error:", err.response?.data);
+    console.error("API Error:", err);
     return {
       success: false,
-      message: err.response?.data?.detail || "API Request Failed!",
+      message: err || "API Request Failed!",
     };
   }
 }
