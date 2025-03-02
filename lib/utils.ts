@@ -35,7 +35,12 @@ export async function handleAPIRequest(
     });
 
     return { success: true, data: response.data };
-  } catch (err) {
+  } catch (err: any) {
+    if (err.status === 401) {
+      alert("Your session has expired. Please log in again.");
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    }
     console.error("API Error:", err);
     return {
       success: false,
