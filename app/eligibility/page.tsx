@@ -79,14 +79,18 @@ export default function EligibilityPage() {
 
   const handleAccept = async (loanId: number) => {
     try {
-      await fetch("/api/accept-loan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ loanId }),
-      });
-      // Handle success (e.g., show confirmation, redirect, etc.)
+      // const res = await fetch("/api/accept-loan", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ loanId }),
+      // });
+      // // Handle success (e.g., show confirmation, redirect, etc.)
+      // if (res.ok) {
+      //   router.push("/confirmation");
+      // }
+      router.push("/confirmation");
     } catch (error) {
       console.error("Error accepting loan:", error);
     }
