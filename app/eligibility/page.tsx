@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { LoanCard } from "@/components/LoanCard"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { LoanCard } from "@/components/LoanCard";
+import { useRouter } from "next/navigation";
 
 interface LoanOption {
-  id: number
-  title: string
-  description: string
-  imageUrl: string
-  threshold: number
-  interestRate: string
-  loanAmount: string
-  term: string
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  threshold: number;
+  interestRate: string;
+  loanAmount: string;
+  term: string;
 }
 
 export default function EligibilityPage() {
-  const [threshold, setThreshold] = useState<number>(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
+  const [threshold, setThreshold] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   // Sample loan options
   // idealy would be read from a table or API but not yet...
@@ -27,7 +27,8 @@ export default function EligibilityPage() {
     {
       id: 1,
       title: "Personal Starter Loan",
-      description: "Perfect for those beginning their credit journey. Low entry requirements with competitive rates.",
+      description:
+        "Perfect for those beginning their credit journey. Low entry requirements with competitive rates.",
       imageUrl: "/placeholder.svg?height=200&width=200",
       threshold: 1,
       interestRate: "8.99%",
@@ -37,7 +38,8 @@ export default function EligibilityPage() {
     {
       id: 2,
       title: "Premium Credit Builder",
-      description: "Designed for those with emerging credit profiles. Better rates with flexible payment options.",
+      description:
+        "Designed for those with emerging credit profiles. Better rates with flexible payment options.",
       imageUrl: "/placeholder.svg?height=200&width=200",
       threshold: 3,
       interestRate: "6.99%",
@@ -47,31 +49,33 @@ export default function EligibilityPage() {
     {
       id: 3,
       title: "Elite Financial Solution",
-      description: "Our premium offering for qualified borrowers. Best rates and highest loan amounts available.",
+      description:
+        "Our premium offering for qualified borrowers. Best rates and highest loan amounts available.",
       imageUrl: "/placeholder.svg?height=200&width=200",
       threshold: 5,
       interestRate: "4.99%",
       loanAmount: "$25,000",
       term: "60 months",
     },
-  ]
+  ];
 
   // Fetch threshold from API
   useEffect(() => {
     const fetchThreshold = async () => {
       try {
-        const response = await fetch("/api/user-threshold")
-        const data = await response.json()
-        setThreshold(data.threshold)
-        setIsLoading(false)
+        // const response = await fetch("/api/user-threshold")
+        // const data = await response.json()
+        // setThreshold(data.threshold)
+        setThreshold(3);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching threshold:", error)
-        setIsLoading(false)
+        console.error("Error fetching threshold:", error);
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchThreshold()
-  }, [])
+    fetchThreshold();
+  }, []);
 
   const handleAccept = async (loanId: number) => {
     try {
@@ -81,12 +85,12 @@ export default function EligibilityPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ loanId }),
-      })
+      });
       // Handle success (e.g., show confirmation, redirect, etc.)
     } catch (error) {
-      console.error("Error accepting loan:", error)
+      console.error("Error accepting loan:", error);
     }
-  }
+  };
 
   const handleDecline = async (loanId: number) => {
     try {
@@ -96,19 +100,19 @@ export default function EligibilityPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ loanId }),
-      })
+      });
       // Handle decline (e.g., show other options, feedback form, etc.)
     } catch (error) {
-      console.error("Error declining loan:", error)
+      console.error("Error declining loan:", error);
     }
-  }
+  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#00CED1] border-t-transparent"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -127,7 +131,13 @@ export default function EligibilityPage() {
 
       {/* Content Section */}
       <main className="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className={`space-y-6 ${threshold >= 4 ? "grid grid-cols-1" : "grid grid-cols-1 md:grid-cols-2 gap-6"}`}>
+        <div
+          className={`space-y-6 ${
+            threshold >= 4
+              ? "grid grid-cols-1"
+              : "grid grid-cols-1 md:grid-cols-2 gap-6"
+          }`}
+        >
           {loanOptions
             .filter((loan) => loan.threshold <= threshold)
             .map((loan) => (
@@ -146,6 +156,5 @@ export default function EligibilityPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-

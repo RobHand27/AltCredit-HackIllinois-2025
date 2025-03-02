@@ -5,8 +5,11 @@ import { motion } from "framer-motion";
 import { ExpandableCard } from "@/components/ExpandableCard";
 import { DocumentUploadCard } from "@/components/DocumentUploadCard";
 import { handleAPIRequest } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function UploadPage() {
+  const router = useRouter();
+
   const [completedSections, setCompletedSections] = useState({
     personalInfo: false,
     financialInfo: false,
@@ -26,23 +29,37 @@ export default function UploadPage() {
     );
   }, [completedSections]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await handleAPIRequest("me");
+      if (res.success) {
+        console.log(res);
+      } else {
+        console.error("Failed to fetch user data");
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleSubmitAll = async () => {
     if (!allSectionsCompleted) return;
 
     try {
-      const response = await fetch("/api/submit-application", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // const response = await fetch("/api/submit-application", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
 
-      if (response.ok) {
-        // Handle successful submission
-        alert("Application submitted successfully!");
-      } else {
-        throw new Error("Failed to submit application");
-      }
+      // if (response.ok) {
+      //   // Handle successful submission
+      //   alert("Application submitted successfully!");
+      // } else {
+      //   throw new Error("Failed to submit application");
+      // }
+      alert("Application submitted successfully!");
+      router.push("/eligibility");
     } catch (error) {
       console.error("Error submitting application:", error);
       alert("Failed to submit application. Please try again.");
@@ -65,7 +82,7 @@ export default function UploadPage() {
 
       {/* Content Section */}
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col space-y-12">
+        <div className="flex flex-col space-y-8">
           {/* Personal Information Form */}
           <ExpandableCard
             title="Personal Information"
