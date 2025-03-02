@@ -29,17 +29,17 @@ export default function UploadPage() {
     );
   }, [completedSections]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await handleAPIRequest("me");
-      if (res.success) {
-        console.log(res);
-      } else {
-        console.error("Failed to fetch user data");
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await handleAPIRequest("me");
+  //     if (res.success) {
+  //       console.log(res);
+  //     } else {
+  //       alert(res.message);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleSubmitAll = async () => {
     if (!allSectionsCompleted) return;
@@ -98,6 +98,8 @@ export default function UploadPage() {
                   ...prev,
                   personalInfo: true,
                 }));
+              } else {
+                alert(res.message);
               }
             }}
             formFields={[
@@ -123,6 +125,8 @@ export default function UploadPage() {
                   ...prev,
                   financialInfo: true,
                 }));
+              } else {
+                alert(res.message);
               }
             }}
             formFields={[
